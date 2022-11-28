@@ -35,7 +35,7 @@ MonoMethod* find_be_init(MonoClass* main_application)
     while (method = mono_class_get_methods(main_application, &iter))
     {
         auto name = mono_method_get_name(method);
-        if ((unsigned(name[0]) & 0xFF) == 0xEE && (unsigned(name[1]) & 0xFF) == 0x80 && (unsigned(name[2]) & 0xFF) == 0x82) // UTF-8 for \uE002
+        if ((unsigned(name[0]) & 0xFF) == 0xEE && (unsigned(name[1]) & 0xFF) == 0x80 && (unsigned(name[2]) & 0xFF) == 0x81) // UTF-8 for \uE001
             return method;
     }
 
@@ -109,7 +109,7 @@ void start()
 
     printf("\n- patching battleye init method\n");
 
-    auto main_application = mono_class_from_name(image, "EFT", "MainApplication");
+    auto main_application = mono_class_from_name(image, "EFT", "TarkovApplication");
     if (main_application == nullptr)
     {
         printf("- can't find EFT.MainApplcation class!\n");
@@ -151,9 +151,9 @@ void start()
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-                     )
+    DWORD  ul_reason_for_call,
+    LPVOID lpReserved
+)
 {
     switch (ul_reason_for_call)
     {
